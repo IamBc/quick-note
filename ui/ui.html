@@ -1,25 +1,57 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <script src="tinymce/js/tinymce/tinymce.min.js"></script>
-  <script>tinymce.init({ selector:'textarea' });</script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+  <script src="ckeditor/ckeditor.js"></script>
+  <script src="gibberish-aes/gibberish-aes.js"></script>
+  <script src="sha.js"></script>
 </head>
 <body>
-  <textarea id="123"></textarea>
-<script>
-tinymce.init({
-  selector: 'textarea',
-  height: 500,
-  plugins: [
-    'advlist autolink lists link image charmap print preview anchor',
-    'searchreplace visualblocks code fullscreen',
-    'insertdatetime media table contextmenu paste code'
-  ],
-  toolbar: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
-  content_css: [
-    'tinymce/js/tinymce/skins/lightgray/content.inline.min.css'
-  ]
-});
-</script>
+    <ul class="nav nav-pills">
+      <li role="presentation" class="active"><a href="#">Save</a></li>
+      <li role="presentation" data-toggle="modal" data-target="#settingsModal"><a href="#" >Settings</a></li>
+    </ul>
+    <!-- Modal -->
+<div class="modal fade" id="settingsModal" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Modal Header</h4>
+      </div>
+      <div class="modal-body">
+        <p>Some text in the modal.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+</div>
+<form>
+           <textarea name="editor1" id="editor1" rows="50" cols="80"></textarea>
+</form>
 </body>
 </html>
+
+<script>
+// Replace the <textarea id="editor1"> with a CKEditor
+// instance, using default configuration.
+CKEDITOR.replace( 'editor1');
+CKEDITOR.config.height = '400';   // CSS unit (percent).
+
+enc = GibberishAES.enc("This sentence is super secret", "ultra-strong-password");
+console.log(enc);
+dec = GibberishAES.dec(enc, "ultra-strong-password");
+console.log(dec);
+
+var shaObj = new jsSHA("SHA-256", "TEXT");
+console.log(shaObj.getHash("HEX"));
+</script>
