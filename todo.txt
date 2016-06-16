@@ -1,0 +1,15 @@
+Version 0.1:
+
+- Backend:
+    - Unit tests
+    - confituration from env
+    - Constructor method
+    - Note saving (in memory only)
+    - Note fetching (in memory only)
+    - limit on note length
+    - limit on number of notes
+ - Frontend:
+    - Correct Js in terms of JSLint
+    - OK File structure (currently it's crap)
+    - Note encryption
+    - Note fetching
