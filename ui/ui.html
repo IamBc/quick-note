@@ -5,12 +5,13 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
   <script src="ckeditor/ckeditor.js"></script>
-  <script src="gibberish-aes/gibberish-aes.js"></script>
-  <script src="sha.js"></script>
+  <script src="js/gibberish-aes/gibberish-aes.js"></script>
+  <script src="js/sha.js"></script>
+  <script src="js/main.js"></script>
 </head>
 <body>
     <ul class="nav nav-pills">
-      <li role="presentation" class="active"><a href="#">Save</a></li>
+      <li role="presentation" class="active"><a id="saveBtn" href="#save">Save</a></li>
       <li role="presentation" data-toggle="modal" data-target="#settingsModal"><a href="#" >Settings</a></li>
     </ul>
     <!-- Modal -->
@@ -36,22 +37,7 @@
 
 </div>
 <form>
-           <textarea name="editor1" id="editor1" rows="50" cols="80"></textarea>
+    <textarea name="quick-note-editor" id="quick-note-editor" rows="50" cols="80"></textarea>
 </form>
 </body>
 </html>
-
-<script>
-// Replace the <textarea id="editor1"> with a CKEditor
-// instance, using default configuration.
-CKEDITOR.replace( 'editor1');
-CKEDITOR.config.height = '400';   // CSS unit (percent).
-
-enc = GibberishAES.enc("This sentence is super secret", "ultra-strong-password");
-console.log(enc);
-dec = GibberishAES.dec(enc, "ultra-strong-password");
-console.log(dec);
-
-var shaObj = new jsSHA("SHA-256", "TEXT");
-console.log(shaObj.getHash("HEX"));
-</script>
