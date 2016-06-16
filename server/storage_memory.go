@@ -1,6 +1,6 @@
 package main
 
-func GetWriterMemory() WriterMemory {
+func NewWriterMemory() WriterMemory {
 	var wm WriterMemory
 	wm.notesEdit = make(map[string]note)
 	wm.notesReadOnly = make(map[string]note)
