@@ -11,23 +11,25 @@
 </head>
 <body>
     <ul class="nav nav-pills">
-      <li role="presentation" class="active"><a id="saveBtn" href="#save">Save</a></li>
-      <li role="presentation" data-toggle="modal" data-target="#settingsModal"><a href="#" >Settings</a></li>
+      <li role="presentation" class="active" ><a id="saveBtn" onmouseup="qn.SaveNote()" style="cursor:pointer">Save</a></li>
+      <li role="presentation" data-toggle="modal" data-target="#settingsModal" style="cursor:pointer"><a>Settings</a></li>
     </ul>
     <!-- Modal -->
-<div class="modal fade" id="settingsModal" role="dialog">
+<div class="modal fade" id="passwordModal" role="dialog">
   <div class="modal-dialog">
 
-    <!-- Modal content-->
+    <!-- Modal content Password-->
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Modal Header</h4>
+        <h4 class="modal-title">Quick Note Settings</h4>
       </div>
       <div class="modal-body">
-        <p>Some text in the modal.</p>
+        <p>Please enter the password for this note:</p>
+        <input id="notePass" type="text" class="form-control" />
       </div>
       <div class="modal-footer">
+         <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="qn.SavePassword();">OK</button>
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
       </div>
     </div>
@@ -35,13 +37,36 @@
   </div>
 </div>
 
+<div class="modal fade" id="settingsModal" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content Password-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Quick Note Settings</h4>
+      </div>
+      <div class="modal-body">
+        <p>Todo :)</p>
+      </div>
+      <div class="modal-footer">
+         <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="qn.SavePassword()">OK</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
 </div>
+
+
+</div>
+<div id="statusContainer"></div>
 <form>
     <textarea name="quick-note-editor" id="quick-note-editor" rows="50" cols="80"></textarea>
 </form>
 </body>
 <script>
-var asd = new QuickNote();
-asd.Load();
+var qn = new QuickNote();
+qn.Load();
 </script>
 </html>
