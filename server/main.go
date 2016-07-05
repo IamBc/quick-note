@@ -5,6 +5,7 @@ import (
 	"flag"
 	"net/http"
 	_ "os"
+	"runtime"
 
 	"github.com/golang/glog"
 	"github.com/gorilla/mux"
@@ -12,41 +13,34 @@ import (
 
 var this app
 
+type app struct {
+	APIPort string
+	w       Storager
+	router  *mux.Router
+	handler APIHandler
+}
+
 func main() {
 	flag.Parse()
-	this.LoadSettings()
+	InitializeApp()
+	glog.Info(http.ListenAndServe(":"+this.APIPort, this.router))
+}
+
+func InitializeApp() {
+	runtime.GOMAXPROCS(runtime.NumCPU())
+
+	glog.Info("Initializing the API")
+	this.APIPort = "7000"
+	w := NewWriterMemory()
+	this.w = &w
+	handler := NewAPIHandlerREST(this.w)
+	this.handler = &handler
+
+	/* setup the  */
+	this.router = mux.NewRouter().StrictSlash(false)
+	this.router.HandleFunc("/g/{NoteID}", this.handler.getNote)
+	this.router.HandleFunc("/save/", this.handler.setNote)
 
 	//Initialize the API
-	router := mux.NewRouter().StrictSlash(false)
-	router.HandleFunc("/g/{NoteID}", getNote)
-	router.HandleFunc("/save/}", saveNote)
-	glog.Info(http.ListenAndServe(":7000", router))
-
-	/*glog.Info(`Hello world!`)
-	a := GetWriterMemory()
-	var testPayload string = "asd"
-	var n note
-	n.Payload = testPayload
-	n.IsEncrypted = false
-
-	glog.Info(`N: `, n)
-
-	a.setNote(n)
-
-	glog.Info(`NOTES EDIT: `, a.notesEdit)
-	*/
-
-}
-
-/*
-API Functions
-They will do some maintenance work (logging/audit trail/statistics) and then pass the parameters to the Specific handler ie REST/JSONRPC and so on
-Currently it's made simpler
-*/
-func getNote(w http.ResponseWriter, r *http.Request) {
-	return
-}
-
-func saveNote(w http.ResponseWriter, r *http.Request) {
-	return
+	glog.Info("Listening on port: ", this.APIPort)
 }
