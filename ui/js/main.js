@@ -31,13 +31,14 @@ QuickNote = function () {
                                     CKEDITOR.instances["quick-note-editor"].setData(payload);
                                 },
                         error: function (xhr, ajaxOptions, thrownError) {
+
                                alert(xhr.status);
                                alert(thrownError);
                            },
                         error: this.DisplayErr
             });
         } catch (err) {
-            console.log("SHIT SON", err);
+            console.log("error:", err);
             this.DisplayErr(err);
         }
     };
