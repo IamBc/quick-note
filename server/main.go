@@ -40,6 +40,7 @@ func InitializeApp() {
 	this.router = mux.NewRouter().StrictSlash(false)
 	this.router.HandleFunc("/g/{NoteID}", this.handler.getNote)
 	this.router.HandleFunc("/save/", this.handler.setNote)
+	this.router.PathPrefix("/").Handler(http.FileServer(http.Dir("./ui/")))
 
 	//Initialize the API
 	glog.Info("Listening on port: ", this.APIPort)
