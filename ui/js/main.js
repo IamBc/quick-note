@@ -12,7 +12,15 @@ QuickNote = function () {
         try {
             CKEDITOR.replace('quick-note-editor');
             CKEDITOR.config.height = '400';   // CSS unit (percent).
+
+            //setup focus and hotkeys for modal
             $('#passwordModal').modal('show');
+            $("#notePass").keyup(function(event){
+                if(event.keyCode == 13){
+                    $("#passwordModalSubmit").click();
+                }
+            });
+            document.getElementById('notePass').focus();
         } catch(err) {
             this.DisplayErr('Error. Please try again later.' + err);
         }
