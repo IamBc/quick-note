@@ -1,10 +1,6 @@
 package main
 
-import (
-	"errors"
-
-	"github.com/golang/glog"
-)
+import "errors"
 
 type note struct {
 	Payload      string
@@ -26,15 +22,10 @@ type WriterMemory struct {
 }
 
 func (w *WriterMemory) getNote(readOnlyHash *string, editHash *string) (n note, err error) {
-	glog.Info("BEFORE NOTES TO EDIT")
 	if readOnlyHash != nil && editHash != nil {
 		return n, errors.New("Only one argument can be defined.")
 	}
 
-	glog.Info("PRINTING THE NOTES TO EDIT", w.notesEdit)
-	glog.Info("PRINTING THE READ ONLY NOTES", w.notesReadOnly)
-
-	glog.Info("AFTER NOTES TO EDIT")
 	if readOnlyHash != nil && *readOnlyHash != "" {
 		val, exists := w.notesReadOnly[*readOnlyHash]
 		if !exists {
@@ -48,6 +39,7 @@ func (w *WriterMemory) getNote(readOnlyHash *string, editHash *string) (n note, 
 		}
 		return val, err
 	}
+
 	return n, errors.New("System error.")
 }
 
@@ -57,7 +49,5 @@ func (w *WriterMemory) setNote(newNote note) (n note, err error) {
 		w.notesReadOnly[newNote.ReadOnlyHash] = newNote
 	}
 
-	glog.Info("PRINTING THE NOTES TO EDIT", w.notesEdit)
-	glog.Info("PRINTING THE READ ONLY NOTES", w.notesReadOnly)
 	return n, err
 }
