@@ -25,12 +25,16 @@ func (handler *APIHandlerREST) getNote(w http.ResponseWriter, r *http.Request) {
 		"Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization, xauthhash")
 
 	if r.Header.Get("xauthhash") == `` {
+		glog.Info(`getNote: xauthash is empty!`)
+		http.Error(w, `Non existant note or wrong authentication.`, http.StatusBadRequest)
 		return
 	}
 	str := r.Header.Get("xauthhash")
 	note, err := handler.w.getNote(nil, &str)
 	if err != nil {
-		glog.Error(err)
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		glog.Error(`Cloud not fetch the note: `, err.Error())
+		return
 	}
 	w.Write([]byte(note.Payload))
 }
@@ -44,6 +48,7 @@ func (handler *APIHandlerREST) setNote(w http.ResponseWriter, r *http.Request) {
 	glog.Info(`setNote: xauthhash`, r.Header.Get("xauthhash"), `request body: `, r.Body)
 	w.Write([]byte("Hello world!"))
 	if r.Header.Get("xauthhash") == `` {
+		http.Error(w, `Internal error. Try again later.`, http.StatusInternalServerError)
 		return
 	}
 
