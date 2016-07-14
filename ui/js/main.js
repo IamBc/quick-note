@@ -39,11 +39,8 @@ QuickNote = function () {
                                     CKEDITOR.instances["quick-note-editor"].setData(payload);
                                 },
                         error: function (xhr, ajaxOptions, thrownError) {
-
-                               alert(xhr.status);
-                               alert(thrownError);
+                               qn.DisplayErr(xhr.responseText);
                            },
-                        error: this.DisplayErr
             });
         } catch (err) {
             console.log("error:", err);
@@ -61,7 +58,9 @@ QuickNote = function () {
                             beforeSend: function(xhr){xhr.setRequestHeader('xauthhash', xauthhash);},
                             success: this.SetSaveSuccess,
                             data: payload,
-                            error: this.DisplayErr
+                            error: function (xhr, ajaxOptions, thrownError) {
+                                   qn.DisplayErr(xhr.responseText);
+                               },
                 });
         } catch (err) {
             this.DisplayErr(err);
@@ -104,9 +103,12 @@ QuickNote = function () {
     this.SetSaveSuccess = function(xhr, reqStatus, reqError){
         console.log(xhr);
         $("#statusContainer").html('<div class="alert alert-success"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><strong>Note saved successfully!</strong></div>');
-    }
+    };
 
     this.DisplayErr = function(msg){
-        $("#statusContainer").html('<div class="alert alert-danger"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><strong>Error try again later!</strong></div>');
-    }
+        if (msg === undefined || msg === '') {
+            msg = "Error, please try again later.";
+        }
+        $("#statusContainer").html('<div class="alert alert-danger"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><strong>'+ msg +'</strong></div>');
+    };
 };
