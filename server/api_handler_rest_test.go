@@ -15,7 +15,7 @@ var req *http.Request
 var err error
 var respRec *httptest.ResponseRecorder
 
-func AddQuestionRoutes(r *mux.Router) {
+func AddRoutes(r *mux.Router) {
 	w := NewWriterMemory()
 	this.w = &w
 	handler := NewAPIHandlerREST(this.w)
@@ -28,17 +28,13 @@ func AddQuestionRoutes(r *mux.Router) {
 }
 
 func setup() {
-	//mux router with added question routes
 	m = mux.NewRouter()
-	AddQuestionRoutes(m)
-
-	//The response recorder used to record HTTP responses
+	AddRoutes(m)
 	respRec = httptest.NewRecorder()
 }
 
 func TestGetNoteNilHash(t *testing.T) {
 	setup()
-	//Testing get of non existent question type
 	req, err = http.NewRequest("GET", "/g/", nil)
 	if err != nil {
 		t.Fatal("Creating 'GET' request failed!")
@@ -52,7 +48,6 @@ func TestGetNoteNilHash(t *testing.T) {
 
 func TestGetNote(t *testing.T) {
 	setup()
-	//Testing get of non existent question type
 	req, err = http.NewRequest("GET", "/g/", nil)
 	if err != nil {
 		t.Fatal("Creating 'GET' request failed!")
@@ -67,7 +62,6 @@ func TestGetNote(t *testing.T) {
 
 func TestSetNoteNilHash(t *testing.T) {
 	setup()
-	//Testing get of non existent question type
 	req, err = http.NewRequest("POST", "/save/", nil)
 	if err != nil {
 		t.Fatal("Creating 'POST' request failed!")
@@ -81,8 +75,6 @@ func TestSetNoteNilHash(t *testing.T) {
 
 func TestSetNoteHash(t *testing.T) {
 	setup()
-
-	//Testing get of non existent question type
 	req, err = http.NewRequest("POST", "/save/", bytes.NewBuffer([]byte(`asd`)))
 	if err != nil {
 		t.Fatal("Creating 'POST' request failed!")
