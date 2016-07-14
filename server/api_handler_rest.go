@@ -48,7 +48,7 @@ func (handler *APIHandlerREST) setNote(w http.ResponseWriter, r *http.Request) {
 	glog.Info(`setNote: xauthhash`, r.Header.Get("xauthhash"), `request body: `, r.Body)
 	w.Write([]byte("Hello world!"))
 	if r.Header.Get("xauthhash") == `` {
-		http.Error(w, `Internal error. Try again later.`, http.StatusInternalServerError)
+		http.Error(w, `Internal error. Try again later.`, http.StatusBadRequest)
 		return
 	}
 
