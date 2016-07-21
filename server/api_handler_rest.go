@@ -29,8 +29,15 @@ func (handler *APIHandlerREST) getNote(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, `Non existant note or wrong authentication.`, http.StatusBadRequest)
 		return
 	}
-	str := r.Header.Get("xauthhash")
-	note, err := handler.w.getNote(nil, &str)
+
+	if r.Header.Get("xnoteid") == `` {
+		glog.Info(`getNote: xnoteid is empty!`)
+		http.Error(w, `Non existant note or wrong authentication.`, http.StatusBadRequest)
+		return
+	}
+
+	xauthhash := r.Header.Get("xauthhash")
+	note, err := handler.w.getNote(&xauthhash, r.Header.Get("xnoteid"))
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		glog.Error(`Cloud not fetch the note: `, err.Error())
@@ -46,15 +53,20 @@ func (handler *APIHandlerREST) setNote(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Headers",
 		"Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization, xauthhash")
 	glog.Info(`setNote: xauthhash`, r.Header.Get("xauthhash"), `request body: `, r.Body)
-	w.Write([]byte("Hello world!"))
 	if r.Header.Get("xauthhash") == `` {
-		http.Error(w, `Internal error. Try again later.`, http.StatusBadRequest)
+		http.Error(w, `Bad request parameters!`, http.StatusBadRequest)
+		return
+	}
+
+	if r.Header.Get("xnoteid") == `` {
+		http.Error(w, `Bad request parameters!`, http.StatusBadRequest)
 		return
 	}
 
 	var newNote note
 	newNote.IsEncrypted = true
 	newNote.EditHash = r.Header.Get("xauthhash")
+	newNote.NoteID = r.Header.Get("xnoteid")
 	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
 		glog.Info(`Cloud not parse request payload: `, err)
