@@ -1,0 +1,7 @@
+{
+    "max_note_count" : 10,
+    "max_note_length" : 10000,
+    "port":7000,
+    "ssl-cert-path": ""
+
+}
