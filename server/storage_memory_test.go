@@ -25,21 +25,11 @@ func TestSetNoteReadOnly(t *testing.T) {
 	}
 }
 
-func TestGetNoteReadOnly(t *testing.T) {
-	w := NewWriterMemory()
-	_, err := w.setNote(note{Payload: "hello", ReadOnlyHash: "dadada"})
-	str := "dadada"
-	_, err = w.getNote(&str, nil)
-	if err != nil {
-		t.Fail()
-	}
-}
-
 func TestGetNoteEdit(t *testing.T) {
 	w := NewWriterMemory()
-	_, err := w.setNote(note{Payload: "hello", ReadOnlyHash: "dadada", EditHash: "editHash"})
+	_, err := w.setNote(note{Payload: "hello", ReadOnlyHash: "dadada", EditHash: "editHash", NoteID: "aaa"})
 	str := "editHash"
-	_, err = w.getNote(nil, &str)
+	_, err = w.getNote(&str, "aaa")
 	if err != nil {
 		t.Fail()
 	}
@@ -47,26 +37,7 @@ func TestGetNoteEdit(t *testing.T) {
 
 func TestGetNoteNotExistsReadOnly(t *testing.T) {
 	w := NewWriterMemory()
-	str := "dadada"
-	_, err := w.getNote(&str, nil)
-	if err == nil {
-		t.Fail()
-	}
-}
-
-func TestGetNoteNotExistsEdit(t *testing.T) {
-	w := NewWriterMemory()
-	str := "editHash"
-	_, err := w.getNote(nil, &str)
-	if err == nil {
-		t.Fail()
-	}
-}
-
-func TestGetNoteNotWrongInpArgs(t *testing.T) {
-	w := NewWriterMemory()
-	str := "editHash"
-	_, err := w.getNote(&str, &str)
+	_, err := w.getNote(nil, "aaa")
 	if err == nil {
 		t.Fail()
 	}

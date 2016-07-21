@@ -7,6 +7,7 @@ type note struct {
 	IsEncrypted  bool
 	ReadOnlyHash string
 	EditHash     string
+	NoteID       string
 }
 
 func NewWriterMemory() WriterMemory {
@@ -21,32 +22,23 @@ type WriterMemory struct {
 	notesReadOnly map[string]note
 }
 
-func (w *WriterMemory) getNote(readOnlyHash *string, editHash *string) (n note, err error) {
-	if readOnlyHash != nil && editHash != nil {
-		return n, errors.New("Only one argument can be defined.")
+func (w *WriterMemory) getNote(editHash *string, noteID string) (n note, err error) {
+
+	val, exists := w.notesEdit[noteID]
+	if !exists {
+		return val, errors.New("This note is free.")
 	}
 
-	if readOnlyHash != nil && *readOnlyHash != "" {
-		val, exists := w.notesReadOnly[*readOnlyHash]
-		if !exists {
-			return val, errors.New(`Key with readOnlyHash: ` + *readOnlyHash + ` doesn't exist.`)
-		}
-		return val, err
-	} else if editHash != nil && *editHash != "" {
-		val, exists := w.notesEdit[*editHash]
-		if !exists {
-			return val, errors.New(`Key with editHash: ` + *editHash + ` doesn't exist.`)
-		}
-		return val, err
+	if val.EditHash != *editHash {
+		return val, errors.New(`Authentication error.`)
 	}
-
-	return n, errors.New("System error.")
+	return val, err
 }
 
 func (w *WriterMemory) setNote(newNote note) (n note, err error) {
-	w.notesEdit[newNote.EditHash] = newNote
+	w.notesEdit[newNote.NoteID] = newNote
 	if newNote.ReadOnlyHash != `` {
-		w.notesReadOnly[newNote.ReadOnlyHash] = newNote
+		w.notesReadOnly[newNote.NoteID] = newNote
 	}
 
 	return n, err
