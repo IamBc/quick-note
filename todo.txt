@@ -1,14 +1,14 @@
-Version 0.1:
+Version 1.0:
 
 - Backend:
-    - Unit tests
     - confituration from env (Port, note limits)
     - limit on note length
     - limit on number of notes
-    - start returning API errors
 - Frontend:
     - Consider settings
     - Consider unit tests
 - Ops:
     - consider creating an install script
     - write up some documentation
+    - https
+    - nginx proxy
