@@ -32,7 +32,9 @@ QuickNote = function () {
         try {
             $.ajax({    url: "http://localhost:7000/g/" + window.location.hash.slice(1),
                         type: "GET",
-                        beforeSend: function(xhr){xhr.setRequestHeader('xauthhash', qn.GenerateHashPass(qn.pass));},
+                        beforeSend: function(xhr){xhr.setRequestHeader('xauthhash', qn.GenerateHashPass(qn.pass));
+                                                  xhr.setRequestHeader('xnoteid', window.location.hash);
+                                    },
                         success: function(data){
                                     console.log("!!!!!resp: " + data);
                                     var payload = GibberishAES.dec(data, qn.pass);
@@ -55,7 +57,9 @@ QuickNote = function () {
                 console.log("Save note: CHECKSUM: " + xauthhash + " payload: " + payload);
                 $.ajax({    url: "http://localhost:7000/save/",
                             type: "POST",
-                            beforeSend: function(xhr){xhr.setRequestHeader('xauthhash', xauthhash);},
+                            beforeSend: function(xhr){xhr.setRequestHeader('xauthhash', xauthhash);
+                                                      xhr.setRequestHeader('xnoteid', window.location.hash);
+                                        },
                             success: this.SetSaveSuccess,
                             data: payload,
                             error: function (xhr, ajaxOptions, thrownError) {
