@@ -24,6 +24,7 @@ QuickNote = function () {
         } catch(err) {
             this.DisplayErr('Error. Please try again later.' + err);
         }
+
     };
 
     this.DisplayNote = function () {
@@ -39,9 +40,11 @@ QuickNote = function () {
                                     console.log("!!!!!resp: " + data);
                                     var payload = GibberishAES.dec(data, qn.pass);
                                     CKEDITOR.instances["quick-note-editor"].setData(payload);
+                                    CKEDITOR.instances["quick-note-editor"].focus();
                                 },
                         error: function (xhr, ajaxOptions, thrownError) {
                                qn.DisplayErr(xhr.responseText);
+                               CKEDITOR.instances["quick-note-editor"].focus();
                            },
             });
         } catch (err) {
