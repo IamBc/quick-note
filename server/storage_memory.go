@@ -26,7 +26,7 @@ func (w *WriterMemory) getNote(editHash *string, noteID string) (n note, err err
 
 	val, exists := w.notesEdit[noteID]
 	if !exists {
-		return val, errors.New("This note is free.")
+		return val, errors.New("This note is free. Save it to make it yours.")
 	}
 
 	if val.EditHash != *editHash {
