@@ -113,6 +113,6 @@ QuickNote = function () {
         if (msg === undefined || msg === '') {
             msg = "Error, please try again later.";
         }
-        $("#statusContainer").html('<div class="alert alert-danger"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><strong>'+ msg +'</strong></div>');
+        $("#statusContainer").html('<div class="alert alert-info"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><strong>'+ msg +'</strong></div>');
     };
 };
