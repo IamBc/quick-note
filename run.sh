@@ -1,1 +1,1 @@
-./server/server -logtostderr=true -config_file=/home/bc/gocode/src/github.com/IamBc/quick-note/example-config.json
+./server/server -logtostderr=true -config_file=example-config.json
