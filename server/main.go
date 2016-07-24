@@ -14,23 +14,27 @@ import (
 var this app
 
 type app struct {
-	APIPort string
 	w       Storager
 	router  *mux.Router
 	handler APIHandler
+	config  Config
+}
+
+type Config struct {
+	APIPort string
 }
 
 func main() {
 	flag.Parse()
-	InitializeApp()
-	glog.Info(http.ListenAndServe(":"+this.APIPort, this.router))
+	InitializeApp(&this)
+	glog.Info(http.ListenAndServe(":"+this.config.APIPort, this.router))
 }
 
-func InitializeApp() {
+func InitializeApp(this *app) {
 	runtime.GOMAXPROCS(runtime.NumCPU())
 
 	glog.Info("Initializing the API")
-	this.APIPort = "7000"
+	this.config.APIPort = "7000"
 	w := NewWriterMemory()
 	this.w = &w
 	handler := NewAPIHandlerREST(this.w)
@@ -43,5 +47,9 @@ func InitializeApp() {
 	this.router.PathPrefix("/").Handler(http.FileServer(http.Dir("./ui/")))
 
 	//Initialize the API
-	glog.Info("Listening on port: ", this.APIPort)
+	glog.Info("Listening on port: ", this.config.APIPort)
+}
+
+func GetConfiguration(this *app) {
+
 }

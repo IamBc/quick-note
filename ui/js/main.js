@@ -10,6 +10,8 @@ QuickNote = function () {
 
     this.Load = function () {
         try {
+
+            //initialize the editor
             CKEDITOR.replace('quick-note-editor');
             CKEDITOR.config.height = '400';   // CSS unit (percent).
 
@@ -118,4 +120,5 @@ QuickNote = function () {
         }
         $("#statusContainer").html('<div class="alert alert-info"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><strong>'+ msg +'</strong></div>');
     };
+
 };
