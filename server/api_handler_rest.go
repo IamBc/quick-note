@@ -63,6 +63,13 @@ func (handler *APIHandlerREST) setNote(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	xauthhash := r.Header.Get("xauthhash")
+	_, err := handler.w.getNote(&xauthhash, r.Header.Get("xnoteid"))
+	if err != nil && err.Error() != "This note is free. Save it to make it yours." {
+		glog.Info("Note is already taken")
+		http.Error(w, `This note is already taken.`, http.StatusBadRequest)
+	}
+
 	var newNote note
 	newNote.IsEncrypted = true
 	newNote.EditHash = r.Header.Get("xauthhash")
