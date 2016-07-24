@@ -1,13 +1,10 @@
 /*jslint browser: true*/
 /*global QuickNote, GibberishAES, $, jQuery, alert, console, CKEDITOR, JsSHA*/
-function QuickNoteAPI() {
-    'use strict';
-    this.Endpoint = "localhost:7001";
-}
 
 QuickNote = function () {
     'use strict';
-
+    this.Endpoint = $("#config").attr("data-api-url");
+    console.log("ENDPOINT: ", this.Endpoint)
     this.Load = function () {
         try {
 
@@ -33,7 +30,7 @@ QuickNote = function () {
         console.log("DisplayNote!!" + window.location.pathname);
 
         try {
-            $.ajax({    url: "http://localhost:7000/g/" + window.location.hash.slice(1),
+            $.ajax({    url: qn.Endpoint + "/g/" + window.location.hash.slice(1),
                         type: "GET",
                         beforeSend: function(xhr){xhr.setRequestHeader('xauthhash', qn.GenerateHashPass(qn.pass));
                                                   xhr.setRequestHeader('xnoteid', window.location.hash);
@@ -60,7 +57,7 @@ QuickNote = function () {
             var xauthhash = this.GenerateHashPass(this.pass),
                 payload = this.EncryptNote(CKEDITOR.instances["quick-note-editor"].getData(), this.pass);
                 console.log("Save note: CHECKSUM: " + xauthhash + " payload: " + payload);
-                $.ajax({    url: "http://localhost:7000/save/",
+                $.ajax({    url: qn.Endpoint + "/save/",
                             type: "POST",
                             beforeSend: function(xhr){xhr.setRequestHeader('xauthhash', xauthhash);
                                                       xhr.setRequestHeader('xnoteid', window.location.hash);
@@ -108,9 +105,9 @@ QuickNote = function () {
         this.DisplayNote();
     };
 
-    this.API = new QuickNoteAPI();
     this.SetSaveSuccess = function(xhr, reqStatus, reqError){
         console.log(xhr);
+        CKEDITOR.instances["quick-note-editor"].focus();
         $("#statusContainer").html('<div class="alert alert-success"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><strong>Note saved successfully!</strong></div>');
     };
 
