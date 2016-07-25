@@ -1,14 +1,16 @@
 Version 1.0:
 
 - Backend:
-    - confituration from env (Port, note limits)
     - limit on note length
     - limit on number of notes
+    - alternative storage
+    - versioning
+    - "compile" the frontend
 - Frontend:
-    - Consider settings
-    - Consider unit tests
+    - autosave
+    - undo/redo
+    - Help / Tutorial
+    - Create random note if hash is not set
 - Ops:
-    - consider creating an install script
-    - write up some documentation
     - https
     - nginx proxy
