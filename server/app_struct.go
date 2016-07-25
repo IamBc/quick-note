@@ -32,7 +32,7 @@ func (this *app) InitializeApp() {
 	glog.Info("Initializing the API")
 	w := NewWriterMemory()
 	this.w = &w
-	handler := NewAPIHandlerREST(this.w)
+	handler := NewAPIHandlerREST(this.w, &this.config)
 	this.handler = &handler
 
 	this.router = mux.NewRouter().StrictSlash(false)

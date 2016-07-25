@@ -7,14 +7,16 @@ import (
 	"github.com/golang/glog"
 )
 
-func NewAPIHandlerREST(w Storager) APIHandlerREST {
+func NewAPIHandlerREST(w Storager, config *Config) APIHandlerREST {
 	var handler APIHandlerREST
 	handler.w = w
+	handler.c = config
 	return handler
 }
 
 type APIHandlerREST struct {
 	w Storager
+	c *Config
 }
 
 func (handler *APIHandlerREST) getNote(w http.ResponseWriter, r *http.Request) {

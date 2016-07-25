@@ -13,7 +13,6 @@ type note struct {
 func NewWriterMemory() WriterMemory {
 	var wm WriterMemory
 	wm.notesEdit = make(map[string]note)
-	wm.notesReadOnly = make(map[string]note)
 	return wm
 }
 
@@ -37,9 +36,9 @@ func (w *WriterMemory) getNote(editHash *string, noteID string) (n note, err err
 
 func (w *WriterMemory) setNote(newNote note) (n note, err error) {
 	w.notesEdit[newNote.NoteID] = newNote
-	if newNote.ReadOnlyHash != `` {
-		w.notesReadOnly[newNote.NoteID] = newNote
-	}
-
 	return n, err
+}
+
+func (w *WriterMemory) getCount() int {
+	return len(w.notesEdit)
 }

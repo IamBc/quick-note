@@ -4,7 +4,7 @@ import "testing"
 
 func TestNewWriterMemory(t *testing.T) {
 	w := NewWriterMemory()
-	if w.notesEdit == nil || w.notesReadOnly == nil {
+	if w.notesEdit == nil {
 		t.Fail()
 	}
 }
@@ -41,4 +41,9 @@ func TestGetNoteNotExistsReadOnly(t *testing.T) {
 	if err == nil {
 		t.Fail()
 	}
+}
+
+func TestGetCount(t *testing.T) {
+	w := NewWriterMemory()
+	w.getCount()
 }
