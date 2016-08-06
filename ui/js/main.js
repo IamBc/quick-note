@@ -30,6 +30,7 @@ QuickNote = function () {
         console.log("DisplayNote!!" + window.location.pathname);
 
         try {
+            qn.GenerateNoteIDIfNil();
             $.ajax({    url: qn.Endpoint + "/g/" + window.location.hash.slice(1),
                         type: "GET",
                         beforeSend: function(xhr){xhr.setRequestHeader('xauthhash', qn.GenerateHashPass(qn.pass));
@@ -117,5 +118,15 @@ QuickNote = function () {
         }
         $("#statusContainer").html('<div class="alert alert-info"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><strong>'+ msg +'</strong></div>');
     };
+
+    this.GenerateNoteIDIfNil = function() {
+            if (window.location.hash === '') {
+                 var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+                     for( var i=0; i < 5; i++ )
+                        window.location.hash += possible.charAt(Math.floor(Math.random() * possible.length));
+
+
+            }
+    }
 
 };
