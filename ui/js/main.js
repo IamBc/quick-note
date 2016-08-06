@@ -37,14 +37,19 @@ QuickNote = function () {
                                                   xhr.setRequestHeader('xnoteid', window.location.hash);
                                     },
                         success: function(data){
-                                    console.log("!!!!!resp: " + data);
+                                    console.log("resp: " + data);
                                     var payload = GibberishAES.dec(data, qn.pass);
                                     CKEDITOR.instances["quick-note-editor"].setData(payload);
                                     CKEDITOR.instances["quick-note-editor"].focus();
+
+                                    // Enable autosave
+                                    window.setInterval(function(){ console.log("kurec"); qn.SaveNote(); }, 2000);
                                 },
                         error: function (xhr, ajaxOptions, thrownError) {
                                qn.DisplayErr(xhr.responseText);
                                CKEDITOR.instances["quick-note-editor"].focus();
+                               // Enable autosave
+                               window.setInterval(function(){ console.log("kurec"); qn.SaveNote(); }, 2000);
                            },
             });
         } catch (err) {
@@ -130,3 +135,5 @@ QuickNote = function () {
     }
 
 };
+
+
