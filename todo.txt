@@ -4,13 +4,10 @@ Version 1.0:
     - limit on note length
     - limit on number of notes
     - alternative storage
-    - versioning
     - "compile" the frontend
 - Frontend:
-    - autosave
-    - undo/redo
-    - Help / Tutorial
-    - Create random note if hash is not set
 - Ops:
     - https
     - nginx proxy
+- Docs:
+    - Configuration (note length, number of notes, autosave, random hash settings)
