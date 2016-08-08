@@ -1,10 +1,9 @@
 Version 1.0:
 
 - Backend:
-    - limit on note length
-    - limit on number of notes
     - alternative storage
     - "compile" the frontend
+    - tests for length and count
 - Frontend:
 - Ops:
     - https
