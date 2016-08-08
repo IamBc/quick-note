@@ -10,13 +10,14 @@ import (
 func NewAPIHandlerREST(w Storager, config *Config) APIHandlerREST {
 	var handler APIHandlerREST
 	handler.w = w
-	handler.c = config
+	handler.Config = config
+	glog.Info(`Conf: `, handler.Config)
 	return handler
 }
 
 type APIHandlerREST struct {
 	w Storager
-	c *Config
+	Config *Config
 }
 
 func (handler *APIHandlerREST) getNote(w http.ResponseWriter, r *http.Request) {
@@ -72,6 +73,7 @@ func (handler *APIHandlerREST) setNote(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, `This note is already taken.`, http.StatusBadRequest)
 	}
 
+
 	var newNote note
 	newNote.IsEncrypted = true
 	newNote.EditHash = r.Header.Get("xauthhash")
@@ -83,6 +85,12 @@ func (handler *APIHandlerREST) setNote(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	newNote.Payload = string(body)
+	if len(body) > handler.Config.MaxNoteLength {
+	     http.Error(w, `Note exceeds maximum length.`, http.StatusBadRequest)
+	}
+	if handler.w.getCount() >= handler.Config.MaxNoteCount {
+	     http.Error(w, `Maximum note count is exceeded.`, http.StatusBadRequest)
+	}
 	// Currently setNote doesn't return any errors. Only possible error is not
 	//enough memory which would cause the OS to kill the process anyways...
 	handler.w.setNote(newNote)

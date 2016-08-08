@@ -18,7 +18,7 @@ var respRec *httptest.ResponseRecorder
 func AddRoutes(r *mux.Router) {
 	w := NewWriterMemory()
 	this.w = &w
-	handler := NewAPIHandlerREST(this.w, &this.config)
+	handler := NewAPIHandlerREST(this.w, &this.Config)
 	//s := r.PathPrefix("/g/").Subrouter()
 	r.HandleFunc("/g/{NoteID}", handler.getNote)
 	r.HandleFunc("/g/", handler.getNote)

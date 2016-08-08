@@ -17,5 +17,5 @@ func main() {
 	flag.Parse()
 	this.GetConfiguration(*configFile)
 	this.InitializeApp()
-	glog.Info(http.ListenAndServe(":"+strconv.Itoa(this.config.BackendPort), this.router))
+	glog.Info(http.ListenAndServe(":"+strconv.Itoa(this.Config.BackendPort), this.router))
 }

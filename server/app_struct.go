@@ -14,7 +14,7 @@ type app struct {
 	w       Storager
 	router  *mux.Router
 	handler APIHandler
-	config  Config
+	Config  Config
 }
 
 type Config struct {
@@ -32,7 +32,7 @@ func (this *app) InitializeApp() {
 	glog.Info("Initializing the API")
 	w := NewWriterMemory()
 	this.w = &w
-	handler := NewAPIHandlerREST(this.w, &this.config)
+	handler := NewAPIHandlerREST(this.w, &this.Config)
 	this.handler = &handler
 
 	this.router = mux.NewRouter().StrictSlash(false)
@@ -40,7 +40,7 @@ func (this *app) InitializeApp() {
 	this.router.HandleFunc("/save/", this.handler.setNote)
 	this.router.PathPrefix("/").Handler(http.FileServer(http.Dir("./ui/")))
 
-	glog.Info("Listening on port: ", this.config.BackendPort)
+	glog.Info("Listening on port: ", this.Config.BackendPort)
 }
 
 func (this *app) GetConfiguration(configFile string) error {
@@ -50,7 +50,7 @@ func (this *app) GetConfiguration(configFile string) error {
 		return err
 	}
 
-	err = json.Unmarshal(dat, &this.config)
+	err = json.Unmarshal(dat, &this.Config)
 	if err != nil {
 		glog.Error("Cloud not unmarshal file: ", err.Error())
 		return err
